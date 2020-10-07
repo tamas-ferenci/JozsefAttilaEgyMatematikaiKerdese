@@ -1,21 +1,21 @@
-József Attila egy matematikai kérdése
-================
+---
+title: "József Attila egy matematikai kérdése"
+output: github_document
+---
 
-A kézirat letölthető innen: [Ferenci Tamás: József Attila egy
-matematikai
-kérdése](FerenciTamas_JozsefAttilaEgyMatematikaiKerdese.pdf).
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
-Ez az oldal a kéziratban hivatkozott szemléltető animációkat
-tartalmazza. Mindenhol megmutatom az `R` kódot is, mely az ábrák,
-animációk reprodukciójához szükséges, hogy akit érdekel, tudja ezeket
-is hasznosítani.
+A kézirat letölthető innen: [Ferenci Tamás: József Attila egy matematikai kérdése](FerenciTamas_JozsefAttilaEgyMatematikaiKerdese.pdf).
+
+Ez az oldal a kéziratban hivatkozott szemléltető animációkat tartalmazza. Mindenhol megmutatom az `R` kódot is, mely az ábrák, animációk reprodukciójához szükséges, hogy akit érdekel, tudja ezeket is hasznosítani.
 
 ## A ciklois szemléltetése
 
-A következő kód lehetővé teszi mindenféle (tehát akár csúcsos vagy
-nyújtott) cikloisok ábrázolását:
+A következő kód lehetővé teszi mindenféle (tehát akár csúcsos vagy nyújtott) cikloisok ábrázolását:
 
-``` r
+```{r}
 plotcyclois <- function(tmax, a = 1, radius = TRUE, xl = c(-1, 21),
                         yl = c(0, 2), trace = TRUE, drawline = FALSE) {
   t <- seq(0, tmax, length.out = 200)
@@ -33,33 +33,27 @@ plotcyclois <- function(tmax, a = 1, radius = TRUE, xl = c(-1, 21),
 }
 ```
 
-A “szokásos” (csúcsos) ciklois kialakulásának szemléltetése:
+A "szokásos" (csúcsos) ciklois kialakulásának szemléltetése:
 
-``` r
+```{r, animation.hook="gifski", interval=0.05}
 for(t in seq(0, 20, 0.1)) plotcyclois(t, radius = FALSE)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-2-.gif)<!-- -->
-
 A hurkolt ciklois kialakulásának szemléltetése:
 
-``` r
+```{r, animation.hook="gifski", interval=0.05}
 for(t in seq(0, 20, 0.1)) plotcyclois(t, 1.5)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-.gif)<!-- -->
-
 A nyújtott ciklois kialakulásának szemléltetése:
 
-``` r
+```{r, animation.hook="gifski", interval=0.05}
 for(t in seq(0, 20, 0.1)) plotcyclois(t, 0.5)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-4-.gif)<!-- -->
-
 ## A brachisztochron probléma szemléltetése
 
-``` r
+```{r, animation.hook="gifski", interval=0.05}
 yline <- expression(x/(3/2*pi+1))
 ysq1 <- expression(-((-14+15*pi)/(6*(-8-6*pi+9*pi^2)))*x^2 - ((124-60*pi-45*pi^2)/(12*(-8-6*pi+9*pi^2)))*x)
 ysq2 <- expression(-((-2+15*pi)/(3*(-8-6*pi+9*pi^2)))*x^2 - ((52-60*pi-45*pi^2)/(6*(-8-6*pi+9*pi^2)))*x)
@@ -111,11 +105,9 @@ for(i in 1:length(ts)) {
 }
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-5-.gif)<!-- -->
-
 ## A tautochron probléma szemléltetése
 
-``` r
+```{r, animation.hook="gifski", interval=0.05}
 ts <- seq(1e-10, integrate(function(b) sqrt((1+(yderivcyclo(b))^2)/(2*(ycyclo(b)-ycyclo(0)))), 0, pi)$value,
           length.out = 150)
 
@@ -136,13 +128,9 @@ tautochronplot <- function(i) {
 for(i in 1:length(ts)) tautochronplot(i)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-6-.gif)<!-- -->
-
 ## József Attila és Pákozdy Ferenc kérdésére adható válasz szemléltetése
 
-``` r
+```{r, animation.hook="gifski", interval=0.05}
 for(t in seq(0, 20, 0.1)) plotcyclois(t, radius = FALSE, trace = FALSE,
                                       xl = -(1-cos(t)+sin(t)-t)+c(-3, 3), drawline = TRUE)
 ```
-
-![](README_files/figure-gfm/unnamed-chunk-7-.gif)<!-- -->
