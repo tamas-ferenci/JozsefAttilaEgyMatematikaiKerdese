@@ -55,30 +55,36 @@ for(t in seq(0, 20, 0.1)) plotcyclois(t, 0.5)
 
 ```{r, animation.hook="gifski", interval=0.05}
 yline <- expression(x/(3/2*pi+1))
-ysq1 <- expression(-((-14+15*pi)/(6*(-8-6*pi+9*pi^2)))*x^2 - ((124-60*pi-45*pi^2)/(12*(-8-6*pi+9*pi^2)))*x)
-ysq2 <- expression(-((-2+15*pi)/(3*(-8-6*pi+9*pi^2)))*x^2 - ((52-60*pi-45*pi^2)/(6*(-8-6*pi+9*pi^2)))*x)
-ysq3 <- expression(-((-14+3*pi)/(4*(-8-6*pi+9*pi^2)))*x^2 - ((92-12*pi-9*pi^2)/(8*(-8-6*pi+9*pi^2)))*x)
+ysq1 <- expression(-((-14+15*pi)/(6*(-8-6*pi+9*pi^2)))*x^2 -
+                     ((124-60*pi-45*pi^2)/(12*(-8-6*pi+9*pi^2)))*x)
+ysq2 <- expression(-((-2+15*pi)/(3*(-8-6*pi+9*pi^2)))*x^2 -
+                     ((52-60*pi-45*pi^2)/(6*(-8-6*pi+9*pi^2)))*x)
+ysq3 <- expression(-((-14+3*pi)/(4*(-8-6*pi+9*pi^2)))*x^2 -
+                     ((92-12*pi-9*pi^2)/(8*(-8-6*pi+9*pi^2)))*x)
 yroot <- expression((x/(3/2*pi+1))^(1/2))
 tcyclo <- Vectorize(function(x) uniroot(function(s) x-s+sin(s), c(0, 2*pi))$root)
 ycyclo <- function(x) ifelse(is.na(x), NA, 1-cos(tcyclo(x)))
 yderivcyclo <- function(x) sin(tcyclo(x))/(1-cos(tcyclo(x)))
 
-ts <- seq(1e-10, integrate(function(b) sqrt((1+(yderivcyclo(b))^2)/(2*(ycyclo(b)-ycyclo(0)))), 0, 3/2*pi+1)$value,
+ts <- seq(1e-10, integrate(function(b) sqrt((1+(yderivcyclo(b))^2)/(2*(ycyclo(b)-ycyclo(0)))), 0,
+                           3/2*pi+1)$value,
           length.out = 200)
 xs <- seq(0, 3/2*pi+1, length.out = 200)
 
 traj <- function(yexpr, ts, yderiv = NULL, start = 0) {
   if(is.null(yderiv)) {
     y <- function(x) eval(yexpr)
-    derivexpr <- caracas::as_r(caracas::der(caracas::as_symbol(as.character(yexpr)), caracas::as_symbol("x")))
+    derivexpr <- caracas::as_r(caracas::der(caracas::as_symbol(as.character(yexpr)),
+                                            caracas::as_symbol("x")))
     yderiv <- function(x) eval(derivexpr)
   } else y <- yexpr
-  maxx <- if(any(y(start)>y(seq(start, 3/2*pi+1, 0.01)))) uniroot(function(b) y(b)-y(start),
-                                                                  c(start+1e-10, 3/2*pi+1))$root else 3/2*pi+1
+  maxx <- if(any(y(start)>y(seq(start, 3/2*pi+1, 0.01))))
+    uniroot(function(b) y(b)-y(start), c(start+1e-10, 3/2*pi+1))$root else 3/2*pi+1
   maxt <- integrate(function(b) sqrt((1+(yderiv(b))^2)/(2*(y(b)-y(start)))), start, maxx)$value
   c(sapply(ts[ts<maxt], function(t) uniroot(function(u)
     integrate(function(b) sqrt((1+(yderiv(b))^2)/(2*(y(b)-y(start)))),
-              start+2e-10, u, subdivisions = 200L)$value-t, c(start+1e-10, maxx))$root),rep(NA, sum(ts>=maxt)))
+              start+2e-10, u, subdivisions = 200L)$value-t, c(start+1e-10, maxx))$root),
+    rep(NA, sum(ts>=maxt)))
 }
 
 linetraj <- traj(yline, ts)
@@ -108,8 +114,8 @@ for(i in 1:length(ts)) {
 ## A tautochron probléma szemléltetése
 
 ```{r, animation.hook="gifski", interval=0.05}
-ts <- seq(1e-10, integrate(function(b) sqrt((1+(yderivcyclo(b))^2)/(2*(ycyclo(b)-ycyclo(0)))), 0, pi)$value,
-          length.out = 150)
+ts <- seq(1e-10, integrate(function(b) sqrt((1+(yderivcyclo(b))^2)/(2*(ycyclo(b)-ycyclo(0)))),
+                           0, pi)$value, length.out = 150)
 
 cyclotraj <- traj(ycyclo, ts, yderivcyclo)
 cyclotraj1 <- traj(ycyclo, ts, yderivcyclo, 1)
