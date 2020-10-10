@@ -5,10 +5,10 @@ A kézirat letölthető innen: [Ferenci Tamás: József Attila egy
 matematikai
 kérdése](FerenciTamas_JozsefAttilaEgyMatematikaiKerdese.pdf).
 
-Ez az oldal a kéziratban hivatkozott szemléltető animációkat
-tartalmazza. Mindenhol megmutatom az `R` kódot is, mely az ábrák,
-animációk reprodukciójához szükséges, hogy akit érdekel, tudja ezeket
-is hasznosítani.
+Ez a weboldal a kéziratban hivatkozott szemléltető animációkat
+tartalmazza. Mindenhol megadom az `R` kódot is, mely az ábrák, animációk
+reprodukciójához szükséges, hogy akit érdekel, tudja ezeket is
+hasznosítani.
 
 ## A ciklois szemléltetése
 
