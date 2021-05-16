@@ -9,6 +9,8 @@ knitr::opts_chunk$set(echo = TRUE, dpi = 300)
 
 A kézirat letölthető innen: [Ferenci Tamás: József Attila egy matematikai kérdése](FerenciTamas_JozsefAttilaEgyMatematikaiKerdese.pdf).
 
+A megjelent publikáció: [Ferenci Tamás: József Attila egy matematikai kérdése](https://ematlap.hu/gazda-g-sag-2020-13/1029-ferenci-tamas-jozsef-attila) (Érintő : Elektronikus Matematikai Lapok. 2020, Paper: 1029).
+
 Ez a weboldal a kéziratban hivatkozott szemléltető animációkat tartalmazza. Mindenhol megadom az `R` kódot is, mely az ábrák, animációk reprodukciójához szükséges, hogy akit érdekel, tudja ezeket is hasznosítani.
 
 ## A ciklois szemléltetése
@@ -74,8 +76,8 @@ xs <- seq(0, 3/2*pi+1, length.out = 200)
 traj <- function(yexpr, ts, yderiv = NULL, start = 0) {
   if(is.null(yderiv)) {
     y <- function(x) eval(yexpr)
-    derivexpr <- caracas::as_r(caracas::der(caracas::as_symbol(as.character(yexpr)),
-                                            caracas::as_symbol("x")))
+    derivexpr <- caracas::as_expr(caracas::der(caracas::as_sym(as.character(yexpr)),
+                                            caracas::as_sym("x")))
     yderiv <- function(x) eval(derivexpr)
   } else y <- yexpr
   maxx <- if(any(y(start)>y(seq(start, 3/2*pi+1, 0.01))))
